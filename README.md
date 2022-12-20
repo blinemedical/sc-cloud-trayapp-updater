@@ -1,42 +1,16 @@
-# Hazel
+# SimCapture Cloud Tray App Update Server
 
-[![CircleCI](https://circleci.com/gh/vercel/hazel/tree/master.svg?style=svg)](https://circleci.com/gh/vercel/hazel/tree/master)
-[![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
+This is the update server for the SimCapture Cloud Tray App. It allows us to serve up the latest releases and automatically update existing customers' tray apps.
 
-This project lets you deploy an update server for [Electron](https://www.electronjs.org) apps with ease: You only need to click a button.
+It is built from Hazel and deploys to Vercel.
 
-The result will be faster and more lightweight than any other solution out there! :rocket:
+## Deployments
 
-- Recommended by Electron [here](https://www.electronjs.org/docs/tutorial/updates#deploying-an-update-server)
-- Built on top of [micro](https://github.com/zeit/micro), the tiniest HTTP framework for Node.js
-- Pulls the latest release data from [GitHub Releases](https://help.github.com/articles/creating-releases/) and caches it in memory
-- Refreshes the cache every **15 minutes** (custom interval [possible](#options))
-- When asked for an update, it returns the link to the GitHub asset directly (saves bandwidth)
-- Supports **macOS** and **Windows** apps
-- Scales infinitely on [Vercel](https://vercel.com) Serverless Functions
+The production version of this update server is available at https://trayapp-updater.simcapture.com.
 
-## Usage
+The staging version of this update server is available at https://sc-cloud-trayapp-updater-git-staging-laerdal-labs.vercel.app. This version caches pre-releases as well as production releases so it is good for testing new tray-app releases before they're shipped to production.
 
-Open this link in a new tab to deploy Hazel on [Vercel](https://vercel.com):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fhazel&env=ACCOUNT,REPOSITORY&envDescription=Enter%20your%20GitHub%20user%2Forg%20slug%20and%20the%20name%20of%20the%20repository%20that%20contains%20your%20Electron%20app.&envLink=https%3A%2F%2Fgithub.com%2Fvercel%2Fhazel%23usage&repo-name=hazel-update-server)
-
-Once it's deployed, paste the deployment address into your code (please keep in mind that updates should only occur in the production version of the app, not while developing):
-
-```js
-const { app, autoUpdater } = require('electron')
-
-const server = <your-deployment-url>
-const url = `${server}/update/${process.platform}/${app.getVersion()}`
-
-autoUpdater.setFeedURL({ url })
-```
-
-That's it! :white_check_mark:
-
-From now on, the auto updater will ask your Hazel deployment for updates!
-
-## Options
+## Configuration
 
 The following environment variables can be used optionally:
 
@@ -80,29 +54,3 @@ If the latest version of the application wasn't yet pulled from [GitHub Releases
 This endpoint was specifically crafted for the Windows platform (called "win32" [in Node.js](https://nodejs.org/api/process.html#process_process_platform)).
 
 Since the [Windows version](https://github.com/Squirrel/Squirrel.Windows) of Squirrel (the software that powers auto updates inside [Electron](https://www.electronjs.org)) requires access to a file named "RELEASES" when checking for updates, this endpoint will respond with a cached version of the file that contains a download link to a `.nupkg` file (the application update).
-
-## Programmatic Usage
-
-You can add Hazel to an existing HTTP server, if you want. For example, this will allow you to implement custom analytics on certain paths.
-
-```js
-const hazel = require('hazel-server')
-
-http.createServer((req, res) => {
-  hazel(req, res)
-})
-```
-
-## Contributing
-
-1. [Fork](https://help.github.com/articles/fork-a-repo/) this repository to your own GitHub account and then [clone](https://help.github.com/articles/cloning-a-repository/) it to your local device
-2. Move into the directory of your clone: `cd hazel`
-3. Install [Vercel CLI](https://vercel.com/cli) and run the development server: `vercel dev`
-
-## Credits
-
-Huge thanks to my ([@leo](https://github.com/leo)'s) friend [Andy](http://twitter.com/andybitz_), who suggested the name "Hazel" (since the auto updater software inside [Electron](https://www.electronjs.org) is called "Squirrel") and [Matheus](https://twitter.com/matheusfrndes) for collecting ideas with me.
-
-## Author
-
-Leo Lamprecht ([@notquiteleo](https://twitter.com/notquiteleo)) - [Vercel](https://vercel.com)
