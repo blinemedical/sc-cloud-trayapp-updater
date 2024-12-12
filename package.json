@@ -1,10 +1,13 @@
 {
-  "name": "hazel-server",
+  "name": "sc-cloud-trayapp-updater",
+  "engines": {
+    "node": "22.x"
+  },
   "version": "5.1.1",
   "main": "lib/index.js",
   "description": "Lightweight update server for Electron apps",
   "scripts": {
-    "local": "npx vercel dev",
+    "local": "vercel dev",
     "test": "xo && jest --passWithNoTests",
     "precommit": "lint-staged"
   },
@@ -50,6 +53,7 @@
     "husky": "0.14.3",
     "lint-staged": "7.0.0",
     "prettier": "1.10.2",
+    "vercel": "39.2.0",
     "xo": "0.20.3"
   }
 }
